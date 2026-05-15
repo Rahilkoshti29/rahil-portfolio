@@ -155,8 +155,10 @@ img { max-width: 100%; }
 ══════════════════════════════════════ */
 .home-sec {
   min-height: 100vh; display: flex; align-items: center;
-  position: relative; overflow: hidden; padding: 0 44px;
+  position: relative;
+  padding: 0 44px;
   background: var(--bg);
+  overflow: visible;
 }
 /* subtle radial glow behind content */
 .home-sec::before {
@@ -282,6 +284,45 @@ img { max-width: 100%; }
   .hdesc { text-align: center; margin: 0 auto 36px; }
   .hbtns { justify-content: center; }
   .hello-badge { justify-content: center; }
+}
+
+@media (max-width: 600px) {
+  .home-sec { padding: 0 20px; }
+
+  /* Fix name size on small screens */
+  .hname {
+    font-size: 3rem;
+    line-height: 1.05;
+  }
+
+  /* Fix typed role text — was overflowing and cutting */
+  .hrole {
+    font-size: 1.6rem;
+    min-height: 2.2em;
+    word-break: break-word;
+  }
+
+  /* Stack buttons vertically on very small screens but full width */
+  .hbtns {
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+  }
+  .btn-fill, .btn-line {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    padding: 14px 20px;
+  }
+
+  .hello-badge {
+    font-size: .72rem;
+    padding: 7px 14px;
+  }
+
+  .hdesc {
+    font-size: .93rem;
+  }
 }
 
 /* ══════════════════════════════════════
