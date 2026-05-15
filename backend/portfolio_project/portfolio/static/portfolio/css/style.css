@@ -266,8 +266,23 @@ img { max-width: 100%; }
 @keyframes csp2 { to { transform: rotate(360deg); } }
 .onode img { width: 100%; height: 100%; object-fit: contain; }
 
-@media (max-width: 980px) { .orbit-area { display: none; } }
-@media (max-width: 560px) { .home-sec { padding: 0 20px; } }
+@media (max-width: 980px) {
+  .orbit-area { display: none !important; }
+  .home-sec {
+    justify-content: center;
+    text-align: center;
+    padding: 0 24px;
+  }
+  .home-left {
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .hdesc { text-align: center; margin: 0 auto 36px; }
+  .hbtns { justify-content: center; }
+  .hello-badge { justify-content: center; }
+}
 
 /* ══════════════════════════════════════
    ABOUT — interest cards, no stat boxes
