@@ -629,19 +629,19 @@ a.ci-v:hover { color: var(--a1); }
 .footer {
   background: var(--card);
   border-top: 1px solid var(--border);
-  padding: 40px 24px;
+  padding: 16px 24px;
   text-align: center;
 }
-.footer-center { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.footer-center { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .footer-logo {
-  font-size: 1.5rem; font-weight: 800;
+  font-size: 1.25rem; font-weight: 800;
   background: var(--grad); -webkit-background-clip: text;
   -webkit-text-fill-color: transparent; background-clip: text;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
-.footer-copy { font-size: .88rem; color: var(--muted); }
+.footer-copy { font-size: .82rem; color: var(--muted); }
 .footer-name-highlight { color: var(--a1); font-weight: 700; }
-.footer-rights { font-size: .78rem; color: var(--dim); }
+.footer-rights { font-size: .72rem; color: var(--dim); }
 /* ══════════════════════════════════════
    STATUS DOT (Open to opportunities)
 ══════════════════════════════════════ */
@@ -764,12 +764,12 @@ a.ci-v:hover { color: var(--a1); }
   transition: transform .3s ease;
 }
 
-.service-card:hover .dm-icon {
+.srv-card:hover .dm-icon {
   transform: translateY(-4px);
   border-color: rgba(249,115,22,.45);
   box-shadow: 0 14px 34px rgba(249,115,22,.18);
 }
 
-.service-card:hover .dm-icon img {
+.srv-card:hover .dm-icon img {
   transform: scale(1.08);
 }
