@@ -157,9 +157,6 @@ img { max-width: 100%; }
     font-size: .9rem; padding: 0; width: 100%; text-align: left; background: transparent; color: var(--muted); border-radius: 0;
   }
   .nav-pill.open .nl:hover, .nav-pill.open .nl.active { color: var(--text); background: transparent; }
-  .nav-pill.open .nl.contact-btn {
-    background: var(--grad) !important; color: #fff; padding: 12px 20px; border-radius: 10px; text-align: center; margin-top: 5px; box-shadow: 0 6px 20px var(--glow);
-  }
   .burger { display: flex; }
 }
 @media (max-width: 560px) {
