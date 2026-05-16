@@ -642,3 +642,135 @@ a.ci-v:hover { color: var(--a1); }
 .footer-copy { font-size: .88rem; color: var(--muted); }
 .footer-name-highlight { color: var(--a1); font-weight: 700; }
 .footer-rights { font-size: .78rem; color: var(--dim); }
+/* ══════════════════════════════════════
+   STATUS DOT (Open to opportunities)
+══════════════════════════════════════ */
+.status-dot-green {
+  display: inline-block;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: #ea6500;
+  animation: orangePulse 1.8s infinite;
+  flex-shrink: 0;
+}
+@keyframes orangePulse {
+  0%,100%{box-shadow:0 0 0 0 rgba(217, 119, 6, 1)}
+  50%{box-shadow:0 0 0 7px transparent}
+}
+
+/* ══════════════════════════════════════
+   SERVICES SECTION
+══════════════════════════════════════ */
+.srv-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 22px;
+}
+.srv-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 30px 24px;
+  transition: all .28s;
+  position: relative;
+  overflow: hidden;
+}
+.srv-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--grad);
+  opacity: 0; transition: opacity .28s;
+}
+.srv-card:hover {
+  border-color: rgba(249,115,22,.3);
+  transform: translateY(-5px);
+  box-shadow: 0 16px 48px var(--glow);
+}
+.srv-card:hover::before { opacity: 1; }
+
+.srv-icon{
+  width:70px;
+  height:70px;
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:2rem;
+
+  background:rgba(249,115,22,.08);
+  border:1px solid rgba(249,115,22,.18);
+
+  margin-bottom:22px;
+
+  transition:all .35s ease;
+}
+.srv-card h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.srv-card p {
+  color: var(--muted);
+  font-size: .88rem;
+  line-height: 1.75;
+  margin-bottom: 16px;
+}
+.srv-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.srv-list li {
+  color: var(--muted);
+  font-size: .82rem;
+  padding-left: 16px;
+  position: relative;
+}
+.srv-list li::before {
+  content: '▸';
+  position: absolute; left: 0;
+  color: var(--a1);
+  font-size: .78rem;
+}
+.srv-card:hover .srv-icon{
+  transform:translateY(-6px) scale(1.08);
+  box-shadow:0 12px 35px rgba(249,115,22,.22);
+  background:linear-gradient(
+    135deg,
+    rgba(249,115,22,.16),
+    rgba(251,191,36,.12)
+  );
+}
+/* Digital Marketing Icon */
+.dm-icon {
+  width: 74px;
+  height: 74px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(249,115,22,.14), rgba(251,191,36,.10));
+  border: 1px solid rgba(249,115,22,.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  transition: all .3s ease;
+  box-shadow: 0 8px 24px rgba(249,115,22,.12);
+}
+
+.dm-icon img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  transition: transform .3s ease;
+}
+
+.service-card:hover .dm-icon {
+  transform: translateY(-4px);
+  border-color: rgba(249,115,22,.45);
+  box-shadow: 0 14px 34px rgba(249,115,22,.18);
+}
+
+.service-card:hover .dm-icon img {
+  transform: scale(1.08);
+}
+
