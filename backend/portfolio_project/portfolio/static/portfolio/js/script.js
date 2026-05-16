@@ -1,7 +1,7 @@
 /* ── Theme ── */
 const body = document.body;
 const themeBtn = document.getElementById('themeBtn');
-body.className = localStorage.getItem('theme') || 'dark';
+body.className = localStorage.getItem('theme') || 'light';
 themeBtn.addEventListener('click', () => {
   body.className = body.className === 'dark' ? 'light' : 'dark';
   localStorage.setItem('theme', body.className);
