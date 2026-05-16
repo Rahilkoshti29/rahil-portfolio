@@ -13,29 +13,11 @@ window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 55);
 });
 
-/* ── Hamburger / Sidebar ── */
-const burger     = document.getElementById('burger');
-const navPill    = document.getElementById('navPill');
-const navOverlay = document.getElementById('navOverlay');
-
-function openMenu() {
-  navPill.classList.add('open');
-  burger.classList.add('open');
-  navOverlay.classList.add('show');
-  document.body.style.overflow = 'hidden';
-}
-function closeMenu() {
-  navPill.classList.remove('open');
-  burger.classList.remove('open');
-  navOverlay.classList.remove('show');
-  document.body.style.overflow = '';
-}
-
-burger.addEventListener('click', () => {
-  navPill.classList.contains('open') ? closeMenu() : openMenu();
-});
-navOverlay.addEventListener('click', closeMenu);
-navPill.querySelectorAll('.nl').forEach(a => a.addEventListener('click', closeMenu));
+/* ── Hamburger ── */
+const burger = document.getElementById('burger');
+const navPill = document.getElementById('navPill');
+burger.addEventListener('click', () => navPill.classList.toggle('open'));
+navPill.querySelectorAll('.nl').forEach(a => a.addEventListener('click', () => navPill.classList.remove('open')));
 
 /* ── Active nav on scroll ── */
 const secs = document.querySelectorAll('section[id]');
