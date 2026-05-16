@@ -100,6 +100,7 @@ img { max-width: 100%; }
   margin: 0 auto;
   backdrop-filter: blur(8px);
 }
+.close-nav { display: none; }
 .light .nav-pill { background: rgba(0,0,0,0.04); }
 
 .nl {
@@ -138,11 +139,27 @@ img { max-width: 100%; }
 @media (max-width: 1100px) {
   .nav-pill { display: none; }
   .nav-pill.open {
-    display: flex; flex-direction: column; position: fixed;
-    inset: 0; background: var(--bg); border-radius: 0; border: none;
-    z-index: 1000; justify-content: center; align-items: center; gap: 10px;
+    display: flex; flex-direction: column; position: absolute;
+    top: 20px; right: 20px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px;
+    z-index: 1000; justify-content: flex-start; align-items: flex-start;
+    padding: 24px; gap: 20px;
+    box-shadow: 0 10px 50px rgba(0,0,0,0.6);
+    min-width: 240px;
   }
-  .nav-pill.open .nl { font-size: 1.15rem; padding: 13px 30px; }
+  .close-nav {
+    display: block; align-self: flex-end; background: none; border: none; cursor: pointer; color: var(--text); padding: 0; margin-bottom: 5px;
+  }
+  .close-nav svg { width: 22px; height: 22px; transition: .2s; }
+  .close-nav:hover svg { color: var(--a1); transform: scale(1.1); }
+  .nav-pill.open .nl { 
+    font-size: .9rem; padding: 0; width: 100%; text-align: left; background: transparent; color: var(--muted); border-radius: 0;
+  }
+  .nav-pill.open .nl:hover, .nav-pill.open .nl.active { color: var(--text); background: transparent; }
+  .nav-pill.open .nl.contact-btn {
+    background: var(--grad) !important; color: #fff; padding: 12px 20px; border-radius: 10px; text-align: center; margin-top: 5px; box-shadow: 0 6px 20px var(--glow);
+  }
   .burger { display: flex; }
 }
 @media (max-width: 560px) {
