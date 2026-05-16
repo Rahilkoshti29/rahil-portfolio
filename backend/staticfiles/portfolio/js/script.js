@@ -1,10 +1,10 @@
 /* ── Theme ── */
 const body = document.body;
 const themeBtn = document.getElementById('themeBtn');
-body.className = localStorage.getItem('theme') || 'light';
+// Always start in light mode — no localStorage
+body.className = 'light';
 themeBtn.addEventListener('click', () => {
   body.className = body.className === 'dark' ? 'light' : 'dark';
-  localStorage.setItem('theme', body.className);
 });
 
 /* ── Navbar scroll ── */
@@ -22,25 +22,34 @@ if(closeNav) closeNav.addEventListener('click', () => navPill.classList.remove('
 navPill.querySelectorAll('.nl').forEach(a => a.addEventListener('click', () => navPill.classList.remove('open')));
 
 /* ── Active nav on scroll ── */
-const secs = document.querySelectorAll('section[id]');
-const nls  = document.querySelectorAll('.nl');
-new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      nls.forEach(a => a.classList.remove('active'));
-      const a = document.querySelector(`.nl[data-s="${e.target.id}"]`);
-      if (a) a.classList.add('active');
+const sections = document.querySelectorAll("section[id]");
+const navLinks = document.querySelectorAll(".nl");
+
+window.addEventListener("scroll", () => {
+
+  let current = "";
+
+  sections.forEach(section => {
+
+    const sectionTop = section.offsetTop - 140;
+    const sectionHeight = section.offsetHeight;
+
+    if (window.scrollY >= sectionTop &&
+        window.scrollY < sectionTop + sectionHeight) {
+
+      current = section.getAttribute("id");
     }
   });
-}, { threshold: 0.35 }).observe && secs.forEach(s =>
-  new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting) {
-      nls.forEach(a => a.classList.remove('active'));
-      const a = document.querySelector(`.nl[data-s="${s.id}"]`);
-      if (a) a.classList.add('active');
+
+  navLinks.forEach(link => {
+    link.classList.remove("active");
+
+    if (link.dataset.s === current) {
+      link.classList.add("active");
     }
-  }, { threshold: 0.35 }).observe(s)
-);
+  });
+
+});
 
 /* ── Typed text ── */
 const words = ['App Developer', 'Flutter Developer', 'Full Stack Enthusiast', 'Problem Solver'];
