@@ -16,7 +16,9 @@ window.addEventListener('scroll', () => {
 /* ── Hamburger ── */
 const burger = document.getElementById('burger');
 const navPill = document.getElementById('navPill');
+const closeNav = document.getElementById('closeNav');
 burger.addEventListener('click', () => navPill.classList.toggle('open'));
+if(closeNav) closeNav.addEventListener('click', () => navPill.classList.remove('open'));
 navPill.querySelectorAll('.nl').forEach(a => a.addEventListener('click', () => navPill.classList.remove('open')));
 
 /* ── Active nav on scroll ── */
