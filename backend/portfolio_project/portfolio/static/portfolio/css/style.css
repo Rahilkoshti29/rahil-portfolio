@@ -136,116 +136,62 @@ img { max-width: 100%; }
 .burger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: .3s; }
 
 @media (max-width: 1100px) {
-
-  /* Navbar always on top */
-  .navbar{
-    z-index: 9999;
-  }
-
-  /* Hide default nav */
-  .nav-pill{
+  /* Hide pill in navbar flow */
+  .nav-pill {
     display: none !important;
   }
 
-  /* Mobile right sidebar */
-  .nav-pill.open{
+  /* Sidebar - fixed right panel */
+  .nav-pill.open {
     display: flex !important;
-
     position: fixed;
-
-    top: 14px;
-    right: 14px;
-
-    width: 180px;
-
-    max-height: calc(100vh - 28px);
-
-    overflow-y: auto;
-
-    background: rgba(15,15,20,0.97);
-
-    backdrop-filter: blur(18px);
-
-    border: 1px solid var(--border);
-
-    border-radius: 18px;
-
-    padding: 14px 10px;
-
+    top: 0; right: 0;
+    width: 240px;
+    height: 100%;
+    background: var(--bg2);
+    border-left: 1px solid var(--border);
     flex-direction: column;
-
+    justify-content: center;
     align-items: stretch;
-
-    gap: 4px;
-
-    z-index: 10000;
-
-    box-shadow: 0 14px 40px rgba(0,0,0,0.45);
-
+    gap: 6px;
+    padding: 30px 16px;
+    z-index: 9998;
+    box-shadow: -12px 0 40px rgba(0,0,0,0.5);
+    border-radius: 0;
     margin: 0;
-}
-
-  .light .nav-pill.open{
-    background: rgba(255,255,255,0.96);
   }
 
-  /* Nav links */
-  .nav-pill.open .nl{
+  .nav-pill.open .nl {
     display: block !important;
-
-    width: 100%;
-
-    padding: 11px 14px;
-
-    border-radius: 12px;
-
-    font-size: .82rem;
-
+    font-size: 0.92rem;
     font-weight: 700;
-
-    letter-spacing: .04em;
-
-    text-align: left;
-
+    letter-spacing: 0.06em;
     color: var(--muted);
-
-    transition: .25s;
-
-    background: transparent;
-
+    padding: 13px 18px;
+    border-radius: 10px;
+    text-align: left;
+    width: 100%;
+    background: none;
+    cursor: pointer;
+    pointer-events: all;
     -webkit-text-fill-color: var(--muted);
-}
+  }
 
   .nav-pill.open .nl:hover,
-  .nav-pill.open .nl.active{
+  .nav-pill.open .nl.active {
     background: var(--grad);
-
     color: #fff !important;
-
     -webkit-text-fill-color: #fff !important;
   }
 
-  /* Burger */
-  .burger{
+  .burger {
     display: flex;
-
+    z-index: 9999;
     position: relative;
-
-    z-index: 10001;
   }
-
-  .burger.open span:nth-child(1){
-    transform: rotate(45deg) translate(5px, 5px);
-  }
-
-  .burger.open span:nth-child(2){
-    opacity: 0;
-    width: 0;
-  }
-
-  .burger.open span:nth-child(3){
-    transform: rotate(-45deg) translate(5px, -5px);
-  }
+  .burger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .burger.open span:nth-child(2) { opacity: 0; width: 0; }
+  .burger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 }
 
 @media (max-width: 560px) {
@@ -263,7 +209,7 @@ img { max-width: 100%; }
   position: relative;
   padding: 0 44px;
   background: var(--bg);
-  overflow: visible; /* clips overflow without affecting sticky/fixed children */
+  overflow: clip; /* clips overflow without affecting sticky/fixed children */
 }
 .home-sec::before {
   content: '';
@@ -754,11 +700,3 @@ a.ci-v:hover { color: var(--a1); }
 .footer-copy { font-size: .88rem; color: var(--muted); }
 .footer-name-highlight { color: var(--a1); font-weight: 700; }
 .footer-rights { font-size: .78rem; color: var(--dim); }
-
-/* Prevent sections from cutting mobile navbar */
-section,
-.section,
-.home-sec,
-.sec-alt{
-  overflow: visible !important;
-}
