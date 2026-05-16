@@ -627,7 +627,7 @@ a.ci-v:hover { color: var(--a1); }
    FOOTER — centered, clean
 ══════════════════════════════════════ */
 .footer {
-  background: var(--bg2);
+  background: var(--bg);
   border-top: 1px solid var(--border);
   padding: 40px 24px;
   text-align: center;
