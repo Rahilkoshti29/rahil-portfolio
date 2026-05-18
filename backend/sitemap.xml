@@ -1,0 +1,13 @@
+def sitemap_xml(request):
+    content = """<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://rahil-koshti.vercel.app/</loc>
+    <lastmod>2026-05-18</lastmod>
+    <priority>1.0</priority>
+  </url>
+</urlset>"""
+    return HttpResponse(content, content_type="application/xml")
+
+# In urlpatterns:
+path('sitemap.xml', sitemap_xml),
