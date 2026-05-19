@@ -488,22 +488,6 @@ img { max-width: 100%; }
 .plbtn:hover { border-color: var(--a1); color: var(--a1); }
 
 /* ══════════════════════════════════════
-   ACHIEVEMENTS
-══════════════════════════════════════ */
-.ach-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-.ach-card {
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: 14px; padding: 26px 22px; transition: all .28s;
-}
-.ach-card:hover { border-color: rgba(249,115,22,.3); transform: translateY(-4px); box-shadow: 0 16px 50px var(--glow); }
-.ach-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-.ach-ico { font-size: 1.9rem; }
-.ach-prize { font-size: .8rem; font-weight: 700; color: #fbbf24; letter-spacing: .04em; }
-.ach-card h4 { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; color: var(--text); }
-.ach-cat { display: inline-block; font-size: .72rem; font-weight: 600; color: var(--a2); margin-bottom: 12px; }
-.ach-card p { color: var(--muted); font-size: .87rem; line-height: 1.72; }
-
-/* ══════════════════════════════════════
    EDUCATION & EXPERIENCE
 ══════════════════════════════════════ */
 .edu-exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
