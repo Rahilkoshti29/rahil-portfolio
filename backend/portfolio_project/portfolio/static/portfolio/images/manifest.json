@@ -1,0 +1,17 @@
+{
+  "name": "Rahil Koshti | App Developer",
+  "short_name": "Rahil Koshti",
+  "description": "Flutter & Full Stack App Developer from Ahmedabad",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0c0c0e",
+  "theme_color": "#f97316",
+  "icons": [
+    {
+      "src": "/static/portfolio/images/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
