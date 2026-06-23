@@ -112,107 +112,99 @@ form.addEventListener('submit', async e => {
 /* ══════════════════════════════════════
    AI CHATBOT - Add this to END of script.js
 ══════════════════════════════════════ */
+/* ══════════════════════════════════════
+   AI CHATBOT
+══════════════════════════════════════ */
 
-(function() {
-  const widget   = document.getElementById('chatWidget');
-  const toggle   = document.getElementById('chatToggle');
-  const closeBtn = document.getElementById('chatCloseBtn');
-  const messages = document.getElementById('chatMessages');
-  const input    = document.getElementById('chatInput');
-  const sendBtn  = document.getElementById('chatSend');
+document.addEventListener("DOMContentLoaded", function () {
 
-  // ── Open / Close ──
-  function openChat()  { widget.classList.add('open'); input.focus(); }
-  function closeChat() { widget.classList.remove('open'); }
+  const widget = document.getElementById("chatWidget");
+  const toggle = document.getElementById("chatToggle");
+  const closeBtn = document.getElementById("chatCloseBtn");
+  const messages = document.getElementById("chatMessages");
+  const input = document.getElementById("chatInput");
+  const sendBtn = document.getElementById("chatSend");
 
-  toggle.addEventListener('click', () =>
-    widget.classList.contains('open') ? closeChat() : openChat()
-  );
-  closeBtn.addEventListener('click', closeChat);
-
-  // ── Add message bubble ──
-  function addMessage(text, role) {
-    const msg = document.createElement('div');
-    msg.className = `chat-msg ${role}`;
-    msg.innerHTML = `
-      <div class="msg-avatar">${role === 'bot' ? '🤖' : '👤'}</div>
-      <div class="msg-bubble">${text}</div>`;
-    messages.appendChild(msg);
-    messages.scrollTop = messages.scrollHeight;
-    return msg;
+  if (!widget || !toggle || !closeBtn || !messages || !input || !sendBtn) {
+    console.error("Chatbot elements not found");
+    return;
   }
 
-  // ── Typing indicator ──
-  function showTyping() {
-    const msg = document.createElement('div');
-    msg.className = 'chat-msg bot';
-    msg.id = 'typingIndicator';
-    msg.innerHTML = `
-      <div class="msg-avatar">🤖</div>
-      <div class="msg-bubble">
-        <div class="typing-dots">
-          <span></span><span></span><span></span>
-        </div>
-      </div>`;
-    messages.appendChild(msg);
-    messages.scrollTop = messages.scrollHeight;
-  }
-  function hideTyping() {
-    const t = document.getElementById('typingIndicator');
-    if (t) t.remove();
-  }
-
-  // ── Send message ──
-  async function sendMessage(text) {
-    const trimmed = text.trim();
-    if (!trimmed) return;
-
-    // Hide quick buttons after first message
-    const quick = document.getElementById('chatQuick');
-    if (quick) quick.style.display = 'none';
-
-    input.value = '';
-    sendBtn.disabled = true;
-    addMessage(trimmed, 'user');
-    showTyping();
-
-    try {
-      const res = await fetch('/api/chat/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: trimmed })
-      });
-      const data = await res.json();
-      hideTyping();
-      if (data.reply) {
-        addMessage(data.reply, 'bot');
-      } else {
-        addMessage('Sorry, I could not get a response. Please try again!', 'bot');
-      }
-    } catch (err) {
-      hideTyping();
-      addMessage('Connection error. Please check your internet and try again.', 'bot');
-    }
-
-    sendBtn.disabled = false;
+  function openChat() {
+    widget.classList.add("open");
     input.focus();
   }
 
-  // ── Quick question buttons ──
-  window.sendQuick = function(text) {
-    openChat();
-    sendMessage(text);
-  };
+  function closeChat() {
+    widget.classList.remove("open");
+  }
 
-  // ── Send on button click ──
-  sendBtn.addEventListener('click', () => sendMessage(input.value));
+  toggle.addEventListener("click", function () {
+    widget.classList.toggle("open");
+  });
 
-  // ── Send on Enter key ──
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+  closeBtn.addEventListener("click", closeChat);
+
+  function addMessage(text, role) {
+    const msg = document.createElement("div");
+    msg.className = `chat-msg ${role}`;
+
+    msg.innerHTML = `
+      <div class="msg-avatar">${role === "bot" ? "🤖" : "👤"}</div>
+      <div class="msg-bubble">${text}</div>
+    `;
+
+    messages.appendChild(msg);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  async function sendMessage(text) {
+    const trimmed = text.trim();
+
+    if (!trimmed) return;
+
+    input.value = "";
+    addMessage(trimmed, "user");
+
+    try {
+
+      const res = await fetch("https://YOUR_BACKEND_URL/api/chat/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: trimmed
+        })
+      });
+
+      const data = await res.json();
+
+      addMessage(
+        data.reply || "Sorry, I couldn't generate a response.",
+        "bot"
+      );
+
+    } catch (e) {
+      addMessage("Connection error.", "bot");
+      console.error(e);
+    }
+  }
+
+  sendBtn.addEventListener("click", () => {
+    sendMessage(input.value);
+  });
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
       e.preventDefault();
       sendMessage(input.value);
     }
   });
 
-})();
+  window.sendQuick = function (text) {
+    openChat();
+    sendMessage(text);
+  };
+
+});
