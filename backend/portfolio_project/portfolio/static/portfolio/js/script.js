@@ -108,3 +108,111 @@ form.addEventListener('submit', async e => {
   }
   sendBtn.textContent = 'SEND MESSAGE'; sendBtn.disabled = false;
 });
+
+/* ══════════════════════════════════════
+   AI CHATBOT - Add this to END of script.js
+══════════════════════════════════════ */
+
+(function() {
+  const widget   = document.getElementById('chatWidget');
+  const toggle   = document.getElementById('chatToggle');
+  const closeBtn = document.getElementById('chatCloseBtn');
+  const messages = document.getElementById('chatMessages');
+  const input    = document.getElementById('chatInput');
+  const sendBtn  = document.getElementById('chatSend');
+
+  // ── Open / Close ──
+  function openChat()  { widget.classList.add('open'); input.focus(); }
+  function closeChat() { widget.classList.remove('open'); }
+
+  toggle.addEventListener('click', () =>
+    widget.classList.contains('open') ? closeChat() : openChat()
+  );
+  closeBtn.addEventListener('click', closeChat);
+
+  // ── Add message bubble ──
+  function addMessage(text, role) {
+    const msg = document.createElement('div');
+    msg.className = `chat-msg ${role}`;
+    msg.innerHTML = `
+      <div class="msg-avatar">${role === 'bot' ? '🤖' : '👤'}</div>
+      <div class="msg-bubble">${text}</div>`;
+    messages.appendChild(msg);
+    messages.scrollTop = messages.scrollHeight;
+    return msg;
+  }
+
+  // ── Typing indicator ──
+  function showTyping() {
+    const msg = document.createElement('div');
+    msg.className = 'chat-msg bot';
+    msg.id = 'typingIndicator';
+    msg.innerHTML = `
+      <div class="msg-avatar">🤖</div>
+      <div class="msg-bubble">
+        <div class="typing-dots">
+          <span></span><span></span><span></span>
+        </div>
+      </div>`;
+    messages.appendChild(msg);
+    messages.scrollTop = messages.scrollHeight;
+  }
+  function hideTyping() {
+    const t = document.getElementById('typingIndicator');
+    if (t) t.remove();
+  }
+
+  // ── Send message ──
+  async function sendMessage(text) {
+    const trimmed = text.trim();
+    if (!trimmed) return;
+
+    // Hide quick buttons after first message
+    const quick = document.getElementById('chatQuick');
+    if (quick) quick.style.display = 'none';
+
+    input.value = '';
+    sendBtn.disabled = true;
+    addMessage(trimmed, 'user');
+    showTyping();
+
+    try {
+      const res = await fetch('/api/chat/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: trimmed })
+      });
+      const data = await res.json();
+      hideTyping();
+      if (data.reply) {
+        addMessage(data.reply, 'bot');
+      } else {
+        addMessage('Sorry, I could not get a response. Please try again!', 'bot');
+      }
+    } catch (err) {
+      hideTyping();
+      addMessage('Connection error. Please check your internet and try again.', 'bot');
+    }
+
+    sendBtn.disabled = false;
+    input.focus();
+  }
+
+  // ── Quick question buttons ──
+  window.sendQuick = function(text) {
+    openChat();
+    sendMessage(text);
+  };
+
+  // ── Send on button click ──
+  sendBtn.addEventListener('click', () => sendMessage(input.value));
+
+  // ── Send on Enter key ──
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage(input.value);
+    }
+  });
+
+})();
