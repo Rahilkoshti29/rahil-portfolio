@@ -3,11 +3,11 @@
   "builds": [
     {
       "src": "portfolio_project/wsgi.py",
-      "use": "@vercel/python"
-    },
-    {
-      "src": "staticfiles/**",
-      "use": "@vercel/static"
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.12"
+      }
     }
   ],
   "routes": [
@@ -19,5 +19,6 @@
       "src": "/(.*)",
       "dest": "portfolio_project/wsgi.py"
     }
-  ]
+  ],
+  "buildCommand": "pip install -r requirements.txt && python manage.py collectstatic --noinput"
 }
