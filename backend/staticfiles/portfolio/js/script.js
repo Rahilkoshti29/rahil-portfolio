@@ -1,7 +1,6 @@
 /* ── Theme ── */
 const body = document.body;
 const themeBtn = document.getElementById('themeBtn');
-// Always start in light mode — no localStorage
 body.className = 'light';
 themeBtn.addEventListener('click', () => {
   body.className = body.className === 'dark' ? 'light' : 'dark';
@@ -26,29 +25,18 @@ const sections = document.querySelectorAll("section[id]");
 const navLinks = document.querySelectorAll(".nl");
 
 window.addEventListener("scroll", () => {
-
   let current = "";
-
   sections.forEach(section => {
-
     const sectionTop = section.offsetTop - 140;
     const sectionHeight = section.offsetHeight;
-
-    if (window.scrollY >= sectionTop &&
-        window.scrollY < sectionTop + sectionHeight) {
-
+    if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
       current = section.getAttribute("id");
     }
   });
-
   navLinks.forEach(link => {
     link.classList.remove("active");
-
-    if (link.dataset.s === current) {
-      link.classList.add("active");
-    }
+    if (link.dataset.s === current) link.classList.add("active");
   });
-
 });
 
 /* ── Typed text ── */
@@ -103,8 +91,103 @@ form.addEventListener('submit', async e => {
       fb.className = 'form-fb ok'; form.reset();
     } else throw new Error(data.error || 'Error');
   } catch {
-    fb.textContent = '❌ Could not send. Email me: rahilkoshti296@gmail.com';
+    fb.textContent = '❌ Could not send. Email me: rahilkoshti29@gmail.com';
     fb.className = 'form-fb err';
   }
   sendBtn.textContent = 'SEND MESSAGE'; sendBtn.disabled = false;
+});
+
+/* ══════════════════════════════════════
+   AI CHATBOT
+══════════════════════════════════════ */
+
+// ── Chat state (outside IIFE so sendQuick is globally accessible) ──
+const chatWidget   = document.getElementById('chatWidget');
+const chatToggle   = document.getElementById('chatToggle');
+const chatCloseBtn = document.getElementById('chatCloseBtn');
+const chatMessages = document.getElementById('chatMessages');
+const chatInput    = document.getElementById('chatInput');
+const chatSendBtn  = document.getElementById('chatSend');
+
+function openChat()  { chatWidget.classList.add('open'); chatInput.focus(); }
+function closeChat() { chatWidget.classList.remove('open'); }
+
+chatToggle.addEventListener('click', () =>
+  chatWidget.classList.contains('open') ? closeChat() : openChat()
+);
+chatCloseBtn.addEventListener('click', closeChat);
+
+function addMessage(text, role) {
+  const msg = document.createElement('div');
+  msg.className = `chat-msg ${role}`;
+  msg.innerHTML = `
+    <div class="msg-avatar">${role === 'bot' ? '🤖' : '👤'}</div>
+    <div class="msg-bubble">${text}</div>`;
+  chatMessages.appendChild(msg);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+  return msg;
+}
+
+function showTyping() {
+  const msg = document.createElement('div');
+  msg.className = 'chat-msg bot';
+  msg.id = 'typingIndicator';
+  msg.innerHTML = `
+    <div class="msg-avatar">🤖</div>
+    <div class="msg-bubble">
+      <div class="typing-dots">
+        <span></span><span></span><span></span>
+      </div>
+    </div>`;
+  chatMessages.appendChild(msg);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function hideTyping() {
+  const t = document.getElementById('typingIndicator');
+  if (t) t.remove();
+}
+
+async function sendMessage(text) {
+  const trimmed = text.trim();
+  if (!trimmed) return;
+
+  const quick = document.getElementById('chatQuick');
+  if (quick) quick.style.display = 'none';
+
+  chatInput.value = '';
+  chatSendBtn.disabled = true;
+  addMessage(trimmed, 'user');
+  showTyping();
+
+  try {
+    const res = await fetch('/api/chat/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: trimmed })
+    });
+    const data = await res.json();
+    hideTyping();
+    addMessage(data.reply || 'Sorry, I could not get a response. Please try again!', 'bot');
+  } catch (err) {
+    hideTyping();
+    addMessage('Connection error. Please check your internet and try again.', 'bot');
+  }
+
+  chatSendBtn.disabled = false;
+  chatInput.focus();
+}
+
+// ── GLOBAL sendQuick — must be on window for inline onclick handlers ──
+window.sendQuick = function(text) {
+  openChat();
+  sendMessage(text);
+};
+
+chatSendBtn.addEventListener('click', () => sendMessage(chatInput.value));
+chatInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage(chatInput.value);
+  }
 });
