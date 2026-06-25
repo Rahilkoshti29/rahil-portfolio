@@ -181,7 +181,10 @@ def ai_chat(request):
         return JsonResponse({"reply": reply})
 
     except Exception as e:
-        logger.error(f"OpenAI error: {e}")
+        import traceback
+        print("OPENAI ERROR:", str(e))
+        traceback.print_exc()
+
         return JsonResponse({
-            "reply": "I'm having trouble connecting right now. Please contact Rahil directly at rahilkoshti29@gmail.com 📧"
+            "reply": f"Error: {str(e)}"
         })
