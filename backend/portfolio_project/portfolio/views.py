@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+from groq import Groq
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
@@ -141,50 +142,59 @@ Status: Actively looking for internship opportunities
 def ai_chat(request):
     if request.method == "OPTIONS":
         r = JsonResponse({})
-        r["Access-Control-Allow-Origin"]  = "*"
+        r["Access-Control-Allow-Origin"] = "*"
         r["Access-Control-Allow-Headers"] = "Content-Type"
         return r
 
     try:
-        d = json.loads(request.body)
+        data = json.loads(request.body)
     except Exception:
         return JsonResponse({"error": "Invalid JSON"}, status=400)
 
-    user_message = d.get("message", "").strip()
+    user_message = data.get("message", "").strip()
+
     if not user_message:
         return JsonResponse({"error": "No message provided"}, status=400)
 
-    # Limit message length for safety
     user_message = user_message[:500]
 
-    openai_key = os.getenv("OPENAI_API_KEY", "")
-    if not openai_key:
+    # Get Groq API Key
+    groq_key = os.getenv("GROQ_API_KEY")
+
+    if not groq_key:
         return JsonResponse({
-            "reply": "AI assistant is not configured yet. Please contact Rahil directly at rahilkoshti29@gmail.com 📧"
+            "reply": "Groq API Key is not configured."
         })
 
     try:
-        import openai
-        client = openai.OpenAI(api_key=openai_key)
+        client = Groq(api_key=groq_key)
 
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="llama-3.3-70b-versatile",
             messages=[
-                {"role": "system",  "content": SYSTEM_PROMPT},
-                {"role": "user",    "content": user_message}
+                {
+                    "role": "system",
+                    "content": SYSTEM_PROMPT
+                },
+                {
+                    "role": "user",
+                    "content": user_message
+                }
             ],
-            max_tokens=250,
-            temperature=0.7
+            temperature=0.7,
+            max_tokens=300,
         )
 
         reply = response.choices[0].message.content
-        return JsonResponse({"reply": reply})
+
+        return JsonResponse({
+            "reply": reply
+        })
 
     except Exception as e:
         import traceback
-        print("OPENAI ERROR:", str(e))
         traceback.print_exc()
 
         return JsonResponse({
-            "reply": f"Error: {str(e)}"
+            "reply": f"Groq Error: {str(e)}"
         })
