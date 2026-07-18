@@ -611,7 +611,7 @@ a.ci-v:hover { color: var(--a1); }
    FOOTER — centered, clean
 ══════════════════════════════════════ */
 .footer {
-  background: var(--bg2);
+  background: var(--card);
   border-top: 1px solid var(--border);
   padding: 16px 24px;
   text-align: center;
