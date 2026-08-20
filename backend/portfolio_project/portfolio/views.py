@@ -170,7 +170,7 @@ def ai_chat(request):
         client = Groq(api_key=groq_key)
 
         response = client.chat.completions.create(
-            model="openai/gpt-oss-20b",
+            model="openai/gpt-oss-20b", #groq/compound-mini
             messages=[
                 {
                     "role": "system",
