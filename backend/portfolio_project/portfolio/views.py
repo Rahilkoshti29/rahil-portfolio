@@ -170,7 +170,7 @@ def ai_chat(request):
         client = Groq(api_key=groq_key)
 
         response = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model="llama-3.1-8b-instant",
             messages=[
                 {
                     "role": "system",
